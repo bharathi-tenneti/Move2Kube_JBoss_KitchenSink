@@ -1,0 +1,11 @@
+resources:
+  - kitchensink-app-clone-build-push-pipeline.yaml
+  - kitchensink-app-run-clone-build-push-triggertemplate.yaml
+  - kitchensink-app-tekton-triggers-admin-role.yaml
+  - kitchensink-app-tekton-triggers-admin-rolebinding.yaml
+  - kitchensink-app-tekton-triggers-admin-serviceaccount.yaml
+  - kitchensink-app-clone-push-serviceaccount.yaml
+  - kitchensink-app-git-event-triggerbinding.yaml
+  - kitchensink-app-git-repo-eventlistener.yaml
+  - kitchensink-app-image-registry-secret.yaml
+  - kitchensink-app-ingress.yaml

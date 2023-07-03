@@ -1,0 +1,8 @@
+version: "3.5"
+services:
+  kitchensink:
+    container_name: kitchensink
+    image: quay.io/kitchensink-app/kitchensink:latest
+    ports:
+      - target: 8080
+        published: 8080

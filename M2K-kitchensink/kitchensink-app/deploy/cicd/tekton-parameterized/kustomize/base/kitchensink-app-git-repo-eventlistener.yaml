@@ -1,0 +1,21 @@
+
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+    creationTimestamp: null
+    name: kitchensink-app-git-repo
+spec:
+    namespaceSelector: {}
+    resources: {}
+    serviceAccountName: kitchensink-app-tekton-triggers-admin
+    triggers:
+        - bindings:
+            - ref: kitchensink-app-git-event
+          template:
+            ref: kitchensink-app-run-clone-build-push
+status:
+    configuration:
+        generatedName: ""
+
+...

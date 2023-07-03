@@ -1,0 +1,261 @@
+apiVersion: move2kube.konveyor.io/v1alpha1
+kind: QACache
+spec:
+  solutions:
+    - id: move2kube.transformerselector
+      type: Input
+      description: Specify a Kubernetes style selector to select only the transformers that you want to run.
+      hints:
+        - Leave empty to select everything. This is the default.
+      default: ""
+      answer: ""
+    - id: move2kube.transformers.types
+      type: MultiSelect
+      description: 'Select all transformer types that you are interested in:'
+      hints:
+        - Services that don't support any of the transformer types you are interested in will be ignored.
+      options:
+        - ArgoCD
+        - Buildconfig
+        - CloudFoundry
+        - ClusterSelector
+        - ComposeAnalyser
+        - ComposeGenerator
+        - ContainerImagesPushScriptGenerator
+        - DockerfileDetector
+        - DockerfileImageBuildScript
+        - DockerfileParser
+        - DotNetCore-Dockerfile
+        - EarAnalyser
+        - EarRouter
+        - Golang-Dockerfile
+        - Gradle
+        - Jar
+        - Jboss
+        - Knative
+        - Kubernetes
+        - KubernetesVersionChanger
+        - Liberty
+        - Maven
+        - Nodejs-Dockerfile
+        - OperatorTransformer
+        - PHP-Dockerfile
+        - Parameterizer
+        - Python-Dockerfile
+        - ReadMeGenerator
+        - Ruby-Dockerfile
+        - Rust-Dockerfile
+        - Tekton
+        - Tomcat
+        - WarAnalyser
+        - WarRouter
+        - WinWebApp-Dockerfile
+        - ZuulAnalyser
+      default:
+        - Jboss
+        - Python-Dockerfile
+        - EarAnalyser
+        - Tekton
+        - Liberty
+        - Jar
+        - Tomcat
+        - Maven
+        - KubernetesVersionChanger
+        - WarRouter
+        - ComposeGenerator
+        - DockerfileDetector
+        - Buildconfig
+        - DotNetCore-Dockerfile
+        - Kubernetes
+        - DockerfileParser
+        - ComposeAnalyser
+        - Gradle
+        - Parameterizer
+        - ClusterSelector
+        - EarRouter
+        - ReadMeGenerator
+        - Nodejs-Dockerfile
+        - PHP-Dockerfile
+        - WinWebApp-Dockerfile
+        - Rust-Dockerfile
+        - ArgoCD
+        - OperatorTransformer
+        - CloudFoundry
+        - Ruby-Dockerfile
+        - Knative
+        - ContainerImagesPushScriptGenerator
+        - WarAnalyser
+        - ZuulAnalyser
+        - DockerfileImageBuildScript
+        - Golang-Dockerfile
+      answer:
+        - Jboss
+        - Python-Dockerfile
+        - EarAnalyser
+        - Tekton
+        - Liberty
+        - Jar
+        - Tomcat
+        - Maven
+        - KubernetesVersionChanger
+        - WarRouter
+        - ComposeGenerator
+        - DockerfileDetector
+        - Buildconfig
+        - DotNetCore-Dockerfile
+        - Kubernetes
+        - DockerfileParser
+        - ComposeAnalyser
+        - Gradle
+        - Parameterizer
+        - ClusterSelector
+        - EarRouter
+        - ReadMeGenerator
+        - Nodejs-Dockerfile
+        - PHP-Dockerfile
+        - WinWebApp-Dockerfile
+        - Rust-Dockerfile
+        - ArgoCD
+        - OperatorTransformer
+        - CloudFoundry
+        - Ruby-Dockerfile
+        - Knative
+        - ContainerImagesPushScriptGenerator
+        - WarAnalyser
+        - ZuulAnalyser
+        - DockerfileImageBuildScript
+        - Golang-Dockerfile
+    - id: move2kube.services.[].enable
+      type: MultiSelect
+      description: 'Select all services that are needed:'
+      hints:
+        - The services unselected here will be ignored.
+      options:
+        - kitchensink
+      default:
+        - kitchensink
+      answer:
+        - kitchensink
+    - id: move2kube.services."kitchensink".dockerfileType
+      type: Select
+      description: What type of Dockerfiles should be generated for the service 'kitchensink'?
+      hints:
+        - '[no build stage] There is no build stage. Dockerfiles will only contain the run stage. The jar/war/ear files will need to be built and present in the file system already, for them to get copied into the container.'
+        - '[build stage in base image] Put the build stage in a separate Dockerfile and create a base image.'
+        - '[build stage in every image] Put the build stage in every Dockerfile to make it self contained. (Warning: This may cause one build per Dockerfile.)'
+      options:
+        - no build stage
+        - build stage in base image
+        - build stage in every image
+      default: build stage in base image
+      answer: no build stage
+    - id: move2kube.services."kitchensink".childModules."kitchensink".port
+      type: Select
+      description: 'Select the port to be exposed for the ''"kitchensink".childModules."kitchensink"'' service :'
+      hints:
+        - Select 'Other' if you want to expose the service using a different port.
+      options:
+        - "8080"
+        - Other (specify custom option)
+      default: "8080"
+      answer: "8080"
+    - id: move2kube.services."kitchensink".wartransformer
+      type: Select
+      description: Select the transformer to use for the "kitchensink" service
+      options:
+        - Jboss
+        - Liberty
+        - Tomcat
+      default: Jboss
+      answer: Jboss
+    - id: move2kube.target.imageregistry.url
+      type: Select
+      description: 'Enter the URL of the image registry where the new images should be pushed : '
+      hints:
+        - You can always change it later by changing the yamls.
+      options:
+        - Other (specify custom option)
+        - quay.io
+      default: quay.io
+      answer: quay.io
+    - id: move2kube.target.imageregistry.namespace
+      type: Input
+      description: 'Enter the namespace where the new images should be pushed : '
+      hints:
+        - 'Ex : kitchensink-app'
+      default: kitchensink-app
+      answer: kitchensink-app
+    - id: move2kube.target."default".clustertype
+      type: Select
+      description: 'Choose the cluster type:'
+      hints:
+        - Choose the cluster type you would like to target
+      options:
+        - IBM-Openshift
+        - Kubernetes
+        - Openshift
+        - AWS-EKS
+        - Azure-AKS
+        - GCP-GKE
+        - IBM-IKS
+      default: Kubernetes
+      answer: AWS-EKS
+    - id: move2kube.services."kitchensink"."8080".servicetype
+      type: Select
+      description: What kind of service/ingress should be created for the service kitchensink's 8080 port?
+      hints:
+        - Choose Ingress if you want a ingress/route resource to be created
+      options:
+        - Ingress
+        - LoadBalancer
+        - NodePort
+        - ClusterIP
+        - Don't create service
+      default: Ingress
+      answer: Ingress
+    - id: move2kube.services."kitchensink"."8080".urlpath
+      type: Input
+      description: Specify the ingress path to expose the service kitchensink's 8080 port on?
+      hints:
+        - Leave out leading / to use first part as subdomain
+      default: /kitchensink
+      answer: /kitchensink
+    - id: move2kube.minreplicas
+      type: Input
+      description: Provide the minimum number of replicas each service should have
+      hints:
+        - If the value is 0 pods won't be started by default
+      default: "2"
+      answer: "2"
+    - id: move2kube.target.imageregistry."quay.io".logintype
+      type: Select
+      description: '[quay.io] What type of container registry login do you want to use?'
+      hints:
+        - Docker login from config mode, will use the default config from your local machine.
+      options:
+        - use an existing pull secret
+        - no authentication
+        - username and password
+      default: no authentication
+      answer: no authentication
+    - id: move2kube.target."default".ingress.ingressclassname
+      type: Input
+      description: Provide the Ingress class name for ingress
+      hints:
+        - Leave empty to use the cluster default
+      default: ""
+      answer: ""
+    - id: move2kube.target."default".ingress.host
+      type: Input
+      description: Provide the ingress host domain
+      hints:
+        - Ingress host domain is part of service URL
+      default: kitchensink-app.com
+      answer: kitchensink-app.com
+    - id: move2kube.target."default".ingress.tls
+      type: Input
+      description: Provide the TLS secret for ingress
+      hints:
+        - Leave empty to use http
+      default: ""
+      answer: ""

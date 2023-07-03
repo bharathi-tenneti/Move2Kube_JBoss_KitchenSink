@@ -1,0 +1,4 @@
+resources:
+  - kitchensink-app-ingress.yaml
+  - kitchensink-deployment.yaml
+  - kitchensink-service.yaml

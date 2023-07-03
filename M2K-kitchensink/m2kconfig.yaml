@@ -1,0 +1,64 @@
+move2kube:
+  minreplicas: "2"
+  services:
+    kitchensink:
+      "8080":
+        servicetype: Ingress
+        urlpath: /kitchensink
+      childModules:
+        kitchensink:
+          port: "8080"
+      dockerfileType: no build stage
+      enable: true
+      wartransformer: Jboss
+  target:
+    default:
+      clustertype: AWS-EKS
+      ingress:
+        host: kitchensink-app.com
+        ingressclassname: ""
+        tls: ""
+    imageregistry:
+      namespace: kitchensink-app
+      quay.io:
+        logintype: no authentication
+      url: quay.io
+  transformers:
+    types:
+      - Jboss
+      - Python-Dockerfile
+      - EarAnalyser
+      - Tekton
+      - Liberty
+      - Jar
+      - Tomcat
+      - Maven
+      - KubernetesVersionChanger
+      - WarRouter
+      - ComposeGenerator
+      - DockerfileDetector
+      - Buildconfig
+      - DotNetCore-Dockerfile
+      - Kubernetes
+      - DockerfileParser
+      - ComposeAnalyser
+      - Gradle
+      - Parameterizer
+      - ClusterSelector
+      - EarRouter
+      - ReadMeGenerator
+      - Nodejs-Dockerfile
+      - PHP-Dockerfile
+      - WinWebApp-Dockerfile
+      - Rust-Dockerfile
+      - ArgoCD
+      - OperatorTransformer
+      - CloudFoundry
+      - Ruby-Dockerfile
+      - Knative
+      - ContainerImagesPushScriptGenerator
+      - WarAnalyser
+      - ZuulAnalyser
+      - DockerfileImageBuildScript
+      - Golang-Dockerfile
+  transformerselector: ""

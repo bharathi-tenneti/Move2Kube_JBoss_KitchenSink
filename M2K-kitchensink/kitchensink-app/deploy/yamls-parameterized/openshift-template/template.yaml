@@ -1,0 +1,89 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: kitchensink-app-template
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  finalizers: []
+  clustername: ""
+  managedfields: []
+objects:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: kitchensink
+      name: kitchensink
+    spec:
+      replicas: ${{COMMON_REPLICAS}}
+      selector:
+        matchLabels:
+          move2kube.konveyor.io/service: kitchensink
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            move2kube.konveyor.io/service: kitchensink
+          name: kitchensink
+        spec:
+          containers:
+            - image: quay.io/kitchensink-app/kitchensink:latest
+              imagePullPolicy: Always
+              name: kitchensink
+              ports:
+                - containerPort: 8080
+              resources: {}
+          restartPolicy: Always
+          securityContext: {}
+    status: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: kitchensink
+      name: kitchensink
+    spec:
+      ports:
+        - name: port-8080
+          port: 8080
+          targetPort: 8080
+      selector:
+        move2kube.konveyor.io/service: kitchensink
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+  - apiVersion: networking.k8s.io/v1beta1
+    kind: Ingress
+    metadata:
+      creationTimestamp: null
+      labels:
+        move2kube.konveyor.io/service: kitchensink-app
+      name: kitchensink-app
+    spec:
+      rules:
+        - host: kitchensink-app.com
+          http:
+            paths:
+              - backend:
+                  serviceName: kitchensink
+                  servicePort: port-8080
+                path: /kitchensink
+                pathType: Prefix
+    status:
+      loadBalancer: {}
+parameters:
+  - name: COMMON_REPLICAS
+    value: "2"

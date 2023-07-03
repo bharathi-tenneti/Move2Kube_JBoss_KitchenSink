@@ -1,0 +1,23 @@
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    creationTimestamp: null
+    labels:
+        move2kube.konveyor.io/service: kitchensink-app
+    name: kitchensink-app
+spec:
+    rules:
+        - host: kitchensink-app.com
+          http:
+            paths:
+                - backend:
+                    serviceName: kitchensink
+                    servicePort: port-8080
+                  path: /kitchensink
+                  pathType: Prefix
+status:
+    loadBalancer: {}
+
+...
